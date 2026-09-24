@@ -1,5 +1,6 @@
 # SOP for ZY_EthovisionIO
 
+![Screenshot](images/Screenshot20260924.png)
 ---
 ## Application
 
