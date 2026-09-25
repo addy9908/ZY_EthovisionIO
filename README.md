@@ -1,10 +1,11 @@
-# SOP for ZY_EthovisionIO
-
-![Screenshot](images/Screenshot20260924.png)
----
-## Application
-
-ZY_EthovisionIO provides EthoVision-controlled Arduino I/O for a single behavioral chamber.
+<h1 align="center">SOP for ZY_EthovisionIO</h1>
+<p align="center">
+  EthoVision-controlled Arduino I/O for a single behavioral chamber
+</p>
+<p align="center">
+  <img src="images/Screenshot20260924.png" width="600"><br>
+  <em>ZY_AdaptorUI</em>
+</p>
 
 ## One-Time Setup
 
@@ -78,7 +79,10 @@ ZY_Controller.exe
 3. Enter the desired command under **Command line options**.
 
 #### Examples
-
+<p align="center">
+  <img src="images/Ethovision_Trial_Control.png" width="600"><br>
+  <em>EthoVision Trial Control setup</em>
+</p>
 Turn Pin 8 ON:
 
 ```text
