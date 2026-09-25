@@ -51,15 +51,18 @@ build_UI.bat
 * Launch `ZY_AdapterUI.exe`.
 * Select the correct COM port and connect.
 * Leave `ZY_AdapterUI` running throughout the experiment.
-* Wait approximately **10 seconds** before starting EthoVision.
+* ~~Wait approximately **10 seconds** before starting EthoVision~~ 
 
-You can verify that the connection is ready by testing:
+~~You can verify that the connection is ready by testing:~~
 
-```text
-p=13,v=1,d=5
-```
+~~```text~~
+~~p=13,v=1,d=5~~
+~~```~~
 
-The built-in Pin 13 LED should turn on for 5 seconds.
+~~The built-in Pin 13 LED should turn on for 5 seconds.~~
+
+> [!NOTE]
+> **Update 2026-09-25:** You no longer need to wait after `Connected` is displayed.
 
 ### 3. Configure EthoVision
 
