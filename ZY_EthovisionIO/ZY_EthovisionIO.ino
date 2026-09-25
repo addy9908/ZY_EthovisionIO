@@ -38,6 +38,7 @@ void loop() {
 
 void processCommand(String cmd) {
   cmd.trim(); if (cmd.length()==0) return;
+  if (cmd.equalsIgnoreCase("PING")) { Serial.println("PONG"); return; }
   int pin=-1, val=0; float dur=0.0; bool havePin=false;
   cmd.replace(",", " "); cmd.replace(";", " ");
   int start=0;

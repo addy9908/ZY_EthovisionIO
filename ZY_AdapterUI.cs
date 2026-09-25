@@ -137,21 +137,32 @@ public class AdapterForm : Form {
 
         string portName = cboPort.SelectedItem.ToString();
         string sysName = portName;
-        int num;
-        if (int.TryParse(portName.Replace("COM", ""), out num) && num >= 10)
-            sysName = "\\\\.\\" + portName;
 
-        int baud = int.Parse(cboBaud.SelectedItem.ToString());
+		int baud = int.Parse(cboBaud.SelectedItem.ToString());
         try {
             sp = new SerialPort(sysName, baud, Parity.None, 8, StopBits.One);
             sp.DtrEnable = false;
             sp.RtsEnable = false;
             sp.NewLine = "\n";
-            sp.DataReceived += SerialDataReceived;
+            sp.ReadTimeout = 500;
             sp.Open();
-            Thread.Sleep(2000);
-            lblSerialStatus.Text = "Connected: " + portName;
-            lblSerialStatus.BackColor = Color.SeaGreen;
+
+            lblSerialStatus.Text = "Waiting for Arduino...";
+            lblSerialStatus.BackColor = Color.DarkOrange;
+            Application.DoEvents();   // let the label repaint before we block
+
+            bool ready = WaitForArduino(12000);   // up to 12 s
+
+            // now attach the live reply handler for normal operation
+            sp.DataReceived += SerialDataReceived;
+
+            if (ready) {
+                lblSerialStatus.Text = "Connected: " + portName;
+                lblSerialStatus.BackColor = Color.SeaGreen;
+            } else {
+                lblSerialStatus.Text = "Connected (no READY?)";
+                lblSerialStatus.BackColor = Color.DarkGoldenrod;
+            }
             btnConnect.Text = "Disconnect";
             StartTcp();
         } catch (Exception ex) {
@@ -160,6 +171,39 @@ public class AdapterForm : Form {
             MessageBox.Show("Serial error: " + ex.Message);
             sp = null;
         }
+    }
+
+	// Wait for the board to finish booting: look for READY, then confirm with PING/PONG.
+    // Returns true once the Arduino answers correctly. Does NOT use the DataReceived handler
+    // (that gets attached afterward), so we can read synchronously here.
+    bool WaitForArduino(int timeoutMs) {
+        DateTime deadline = DateTime.Now.AddMilliseconds(timeoutMs);
+        StringBuilder sb = new StringBuilder();
+        bool sawReady = false;
+        DateTime nextPing = DateTime.Now.AddMilliseconds(500);
+
+        while (DateTime.Now < deadline) {
+            // drain whatever is available
+            try {
+                string chunk = sp.ReadExisting();
+                if (chunk.Length > 0) {
+                    sb.Append(chunk);
+                    string all = sb.ToString();
+                    if (all.IndexOf("READY", StringComparison.OrdinalIgnoreCase) >= 0) sawReady = true;
+                    if (all.IndexOf("PONG", StringComparison.OrdinalIgnoreCase) >= 0) return true;
+                }
+            } catch { }
+
+            // once we've seen READY (or after a short wait), start pinging to confirm parser is live
+            if (DateTime.Now >= nextPing) {
+                try { sp.WriteLine("PING"); } catch { }
+                nextPing = DateTime.Now.AddMilliseconds(500);
+            }
+
+            Application.DoEvents();   // keep UI responsive
+            Thread.Sleep(50);
+        }
+        return sawReady;   // fall back: at least we saw READY even if PONG was missed
     }
 
     void Disconnect() {
