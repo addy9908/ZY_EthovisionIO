@@ -14,7 +14,7 @@
 * Open `ZY_EthovisionIO.ino` in the **Arduino IDE**.
 * Flash the firmware to an **Arduino Uno R3**.
 
-### 2. Test the Arduino
+### 2. Optional: Test the Arduino
 
 * Open the **Serial Monitor** in the Arduino IDE.
 * Test the connection by manually sending:
