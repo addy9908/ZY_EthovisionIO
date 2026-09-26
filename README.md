@@ -1,10 +1,14 @@
-<h1 align="center">SOP for ZY_EthovisionIO</h1>
+<h1 align="center">SOP for ZY_PinBridge</h1>
 <p align="center">
   EthoVision-controlled Arduino I/O for a single behavioral chamber
 </p>
+
+> [!NOTE]
+> **Update 2026-09-25:** Change software name from `ZY_EthovisionIO` to `ZY_PinBridge`.
+
 <p align="center">
   <img src="images/Screenshot20260924.png" width="600"><br>
-  <em>ZY_AdaptorUI</em>
+  <em>ZY_PinBridge_UI</em>
 </p>
 
 ## One-Time Setup
@@ -47,11 +51,11 @@ build_UI.bat
 * Connect the Arduino to the PC via USB.
 * Open **Device Manager** and identify the Arduino's COM port.
 
-### 2. Start ZY_AdapterUI
+### 2. Start ZY_PinBridge_UI
 
-* Launch `ZY_AdapterUI.exe`.
+* Launch `ZY_PinBridge_UI.exe`.
 * Select the correct COM port and connect.
-* Leave `ZY_AdapterUI` running throughout the experiment.
+* Leave `ZY_PinBridge_UI` running throughout the experiment.
 * ~~Wait approximately **10 seconds** before starting EthoVision~~ 
 
 ~~You can verify that the connection is ready by testing:~~
@@ -73,7 +77,7 @@ In EthoVision:
 2. Set **Select program to run** to:
 
 ```text
-ZY_Controller.exe
+ZY_PinBridge_Controller.exe
 ```
 
 3. Enter the desired command under **Command line options**.
@@ -114,15 +118,15 @@ where:
 ### 4. Run the Experiment
 
 * Start the experiment in **EthoVision**.
-* Keep `ZY_AdapterUI` running throughout the session.
-* Monitor the **exportable log in ZY_AdapterUI** to confirm that commands are being received and executed correctly.
+* Keep `ZY_PinBridge_UI` running throughout the session.
+* Monitor the **exportable log in ZY_PinBridge_UI** to confirm that commands are being received and executed correctly.
 
 ---
 
 ## Shutdown
 
 1. Finish or stop the EthoVision experiment.
-2. Close `ZY_AdapterUI`.
+2. Close `ZY_PinBridge_UI`.
 3. Disconnect the Arduino if needed.
 
 
